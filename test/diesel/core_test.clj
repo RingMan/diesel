@@ -23,3 +23,20 @@
   (do
     (def age (clojure.core/partial mk-prop :age))
     (def weight (clojure.core/partial mk-prop :weight))))
+
+(fact
+  (def-props age weight) =expands-to=>
+  (diesel.core/mk-prop-makers diesel.core/mk-prop age weight))
+
+(fact
+  (def-pct-props probability likelihood) =expands-to=>
+  (diesel.core/mk-prop-makers diesel.core/mk-pct-prop probability likelihood))
+
+(fact
+  (def-unit-props length duration) =expands-to=>
+  (diesel.core/mk-prop-makers diesel.core/mk-unit-prop length duration))
+
+(fact
+  (def-loc-props position gps-loc) =expands-to=>
+  (diesel.core/mk-prop-makers diesel.core/mk-loc-prop position gps-loc))
+
