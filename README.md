@@ -1,5 +1,6 @@
 diesel
 ======
+[![Build Status](https://travis-ci.org/RingMan/diesel.png)](https://travis-ci.org/RingMan/diesel)
 
 diesel = di - es - el = DSL = helper library for creating your own DSL
 
