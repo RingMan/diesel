@@ -63,9 +63,6 @@
 (defmacro def-loc-props [& syms]
   `(mk-prop-makers mk-loc-prop ~@syms))
 
-(defn properties [& body]
-  (mk-map* {} body))
-
 (defn property [id & body]
   {id (mk-map* {} body)})
 
@@ -134,23 +131,6 @@
         (for [sym syms]
           `(defmacro ~(symbol (str "def" (name sym))) [~'id & ~'body]
              `(def ~~'id ('~~sym ~~'(keyword (name id)) ~@~'body))))))
-
-(def N :N)
-(def S :S)
-(def E :E)
-(def W :W)
-
-(def % :percent)
-
-(defn unit [v u] {:val v :units u})
-
-(defn lat [& args]
-  {:lat
-   (apply str (interpose " " (map #(if (keyword %) (name %) %) args)))})
-
-(defn lon [& args]
-  {:lon
-   (apply str (interpose " " (map #(if (keyword %) (name %) %) args)))})
 
 (defn alter-in
   "Merges args into map

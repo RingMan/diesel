@@ -12,7 +12,6 @@
     (mk-pct-prop -k- pct :bad-units) => (throws java.lang.AssertionError
                                                 "Assert failed: (pct-units u)")
     (mk-pct-prop -k- (/ pct 100) :dec) => {-k- pct-str}
-    (mk-pct-prop -k- pct%) => {-k- pct-str}
     (mk-pct-prop -k- pct :percent) => {-k- pct-str}
     (mk-pct-prop -k- pct :pct) => {-k- pct-str}))
 
