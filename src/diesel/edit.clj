@@ -1,5 +1,5 @@
 (ns diesel.edit
-  (use [diesel.core :only [mk-map*]]))
+  (:use [diesel.core :only [mk-map*]]))
 
 (defn as-vec [x]
   (if (sequential? x) (vec x) [x]))
