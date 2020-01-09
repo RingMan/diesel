@@ -5,6 +5,7 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :scm {:name "git"
         :url "https://github.com/RingMan/diesel"}
-  :dependencies [[org.clojure/clojure "1.4.0"]]
-  :profiles {:dev {:dependencies [[midje "1.5-beta1"]]
-                   :plugins [[lein-midje "3.0-beta1"]]}})
+  :dependencies [[org.clojure/clojure "1.10.1"]]
+  :profiles {:dev {:dependencies [[org.clojure/tools.namespace "0.3.1"]
+                                  [midje "1.9.9"]]
+                   :plugins [[lein-midje "3.2.2"]]}})
