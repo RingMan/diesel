@@ -7,6 +7,9 @@
 (defn map-it [coll f & colls]
   (apply map f coll colls))
 
+(defn mapv-it [coll f & colls]
+  (apply mapv f coll colls))
+
 (defn filter-it [coll pred]
   (filter pred coll))
 
@@ -31,6 +34,9 @@
 
 (defn map-in [m ks f & colls]
   (apply update-in m ks map-it f colls))
+
+(defn mapv-in [m ks f & colls]
+  (apply update-in m ks mapv-it f colls))
 
 (defn filter-in [m ks pred]
   (update-in m ks filter-it pred))
