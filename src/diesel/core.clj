@@ -149,10 +149,8 @@
           `(defmacro ~(symbol (str "def" (name sym))) [~'id & ~'body]
              `(def ~~'id ('~~sym ~~'(keyword (name id)) ~@~'body))))))
 
-(defn alter-in
-  "Merges args into map
-  If an arg is a keyword, the next arg is taken to be its value
-  Map args are merged in
-  Function args are invoked with the current map passed in"
+(defn edit
+  "Edits an existing map, m, using mk-map*. See mk-map* for
+  how the arguments are processed"
   [m & args]
   (mk-map* m args))
