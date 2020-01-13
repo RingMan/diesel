@@ -108,7 +108,7 @@
   def-dyn-props for details
 
   Example:
-    (def-entity-props {:tag 1 :id :id} person)
+    (def-entity-maps {:tag 1 :id :id} person)
 
     (person :fred :age 4 :dob 2001) =>
       {:tag :person :id :fred :age 4 :dob 2001}"
@@ -122,7 +122,7 @@
 
 (defmacro def-entity-macros
   "Creates an entity-generating macro for each symbol in syms.
-  For example (def-entity-macros scenario) creates a macro like
+  For example (def-entity-macros widget) creates a macro like
 
   (defmacro defwidget [id & body]
     `(def ~id (widget ~(name id) ~@body)))"
