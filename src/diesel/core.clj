@@ -3,17 +3,31 @@
 
 (def pct-units #{:pct :percent :dec})
 
-(defn mk-map* [m args]
+(defn mk-map*
+  "Process args recursively to edit an existing map, m. Arguments are processed
+  as follows:
+
+   - If args is empty return the current map.
+   - If arg is nil, skip it. This lets you use forms like if and when to
+     conditionally edit a map.
+   - If arg is a map, merge it into the current map
+   - If arg is a collection, splice it into args and continue. This lets you
+     use for comprehensions and such in calls to mk-map*
+   - If arg is a function, apply it to the current map.
+   - Otherwise, assume arg forms a key/value pair with the next arg and assoc
+     it into the current map (consumes two arguments). It's an error if value
+     is missing."
+  [m args]
   (let [[x & xs] args]
     (cond
-      (nil? args) m
+      (empty? args) m
       (nil? x) (recur m xs)
       (map? x) (recur (merge m x) xs)
       (coll? x) (recur m (concat x xs))
       (fn? x) (recur (x m) xs)
-      (keyword? x) (recur (assoc m x (first xs)) (rest xs))
-      :else (throw (RuntimeException.
-                     (str "Illegal arg to mk-map*: " x))))))
+      (empty? xs) (throw (RuntimeException.
+                           (str "mk-map* missing value after key: " x)))
+      :else (recur (assoc m x (first xs)) (rest xs)))))
 
 (defn mk-map [& args]
   (mk-map* {} args))
