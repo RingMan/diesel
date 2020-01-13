@@ -15,6 +15,9 @@
       :else (throw (RuntimeException.
                      (str "Illegal arg to mk-map*: " x))))))
 
+(defn mk-map [& args]
+  (mk-map* {} args))
+
 (defn mk-prop [k v]
   {k v})
 
