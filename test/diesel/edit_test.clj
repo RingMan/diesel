@@ -8,6 +8,10 @@
 
 (fact (map-it [:a :b :c] #(vector %1 %2) [1 2 3]) => [[:a 1] [:b 2] [:c 3]])
 
+(let [v1 [:a :b :c], v2 [1 2 3], f #(vector %1 %2)]
+  (facts (mapv-it v1 f v2) => [[:a 1] [:b 2] [:c 3]]
+         (mapv-it v1 f v2) => vector?))
+
 (fact (filter-it [:a :b nil :c] nil?) => [nil])
 
 (fact (remove-it [:a :b nil :c] nil?) => [:a :b :c])
@@ -24,6 +28,10 @@
 
 (fact (map-in {-k- [:a :b :c]} [-k-] #(vector %1 %2) [1 2 3]) =>
       {-k- [[:a 1] [:b 2] [:c 3]]})
+
+(let [v1 [:a :b :c], v2 [1 2 3], f #(vector %1 %2)]
+  (facts (mapv-in {-k- v1} [-k-] f v2) => {-k- [[:a 1] [:b 2] [:c 3]]}
+         (mapv-in {-k- v1} [-k-] f v2) => #(vector? (get-in % [-k-]))))
 
 (fact (filter-in {-k- [:a :b nil :c]} [-k-] nil?) => {-k- [nil]})
 
