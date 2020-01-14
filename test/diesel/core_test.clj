@@ -4,6 +4,16 @@
 
 (fact (mk-prop -k- -v-) => {-k- -v-})
 
+(facts "mk-bool-prop returns a property whose value is boolean"
+       (fact "value defaults to true"
+             (mk-bool-prop -k-) => {-k- true})
+
+       (fact "truthy values coerce to true"
+             (mk-bool-prop -k- :truthy) => {-k- true})
+
+       (fact "falsey values coerce to false"
+             (mk-bool-prop -k- nil) => {-k- false}))
+
 (fact (mk-unit-prop -k- -v- -u-) => {-k- {:units -u- :val -v-}})
 
 (facts
