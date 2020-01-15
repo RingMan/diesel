@@ -28,7 +28,10 @@
                            (str "mk-map* missing value after key: " x)))
       :else (recur (assoc m x (first xs)) (rest xs)))))
 
-(defn mk-map [& args]
+(defn mk-map
+  "Makes a new map using mk-map*. See mk-map* for
+  how the arguments are processed"
+  [& args]
   (mk-map* {} args))
 
 (defn edit
