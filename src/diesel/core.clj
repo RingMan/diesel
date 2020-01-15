@@ -112,25 +112,25 @@
 
 ;; Public API continued
 
-(defmacro def-dyn-props
-  "Creates functions or function aliases for defining 'dynamic' properties
-  (i.e., those where the property id is passed as an argument).  The macro
-  accepts one or more symbols possibly preceded by an options map.  If
-  the :tag option is truthy, generated maps will have a :tag key whose
-  value matches the function name.  If :id is supplied, its value will be
-  used as an ID key in generated maps.
+(defmacro def-entity-props
+  "Accepts one or more symbols possibly preceded by an options map. For each
+  symbol, creates a function that returns an Entity Property. The first
+  argument to each generated function is the Entity name. All remaining
+  arguments describe the Entity's properties. If the :tag option is truthy,
+  generated maps will have a :tag key whose value matches the function name.
+  If :id is supplied, its value will be used as an ID key in generated maps.
 
   Example:
-    (def-dyn-props prop1 prop2)
-    (def-dyn-props {:tag true} prop3 prop4)
-    (def-dyn-props {:id :name} prop5 prop6)
-    (def-dyn-props {:id :id, :tag :truthy} prop7)
+    (def-entity-props ent1 ent2)
+    (def-entity-props {:tag true} ent3 ent4)
+    (def-entity-props {:id :name} ent5 ent6)
+    (def-entity-props {:id :id, :tag :truthy} ent7)
 
-    (prop1 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001}}
-    (prop3 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001 :tag :prop3}}
-    (prop5 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001 :name :fred}}
-    (prop7 :fred :age 4 :dob 2001) =>
-      {:fred {:age 4 :dob 2001 :id :fred :tag :prop7}}"
+    (ent1 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001}}
+    (ent3 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001 :tag :ent3}}
+    (ent5 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001 :name :fred}}
+    (ent7 :fred :age 4 :dob 2001) =>
+      {:fred {:age 4 :dob 2001 :id :fred :tag :ent7}}"
   [opt & syms]
   (let [{:keys [id tag]} opt
         syms (if (map? opt) syms (cons opt syms))]
@@ -146,7 +146,7 @@
 (defmacro def-entity-maps
   "Creates functions for creating maps representing an entity.  The macro
   accepts one or more symbols possibly preceded by an options map.  See
-  def-dyn-props for details
+  def-entity-props for details
 
   Example:
     (def-entity-maps {:tag 1 :id :id} person)
