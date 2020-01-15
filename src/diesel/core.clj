@@ -1,6 +1,7 @@
 (ns diesel.core
   (:require [clojure.string :as str]))
 
+;; Core helper function to edit existing map
 
 (defn mk-map*
   "Process args recursively to edit an existing map, m. Arguments are processed
@@ -28,6 +29,8 @@
                            (str "mk-map* missing value after key: " x)))
       :else (recur (assoc m x (first xs)) (rest xs)))))
 
+;; Public API for creating/editing maps
+
 (defn mk-map
   "Makes a new map using mk-map*. See mk-map* for
   how the arguments are processed"
@@ -39,6 +42,9 @@
   how the arguments are processed"
   [m & args]
   (mk-map* m args))
+
+;; Helper functions that return a map with a single key/value pair, representing a
+;; property of an entity.
 
 (defn mk-prop [k v]
   {k v})
@@ -64,10 +70,14 @@
 (defn mk-loc-prop [k lat lon]
   {k {:lat lat :lon lon}})
 
+;; Public API (aux): Helper macro for the property creation macros below
+
 (defmacro mk-prop-makers [mk-prop-func & syms]
   (cons 'do
         (for [sym syms]
           `(def ~sym (partial ~mk-prop-func ~(keyword sym))))))
+
+;; Public API: macros for generating property creation functions
 
 (defmacro def-props [& syms]
   `(mk-prop-makers mk-prop ~@syms))
@@ -90,6 +100,8 @@
 (defmacro def-loc-props [& syms]
   `(mk-prop-makers mk-loc-prop ~@syms))
 
+;; Helper functions for the macros below
+
 (defn property [id & body]
   {id (mk-map* {} body)})
 
@@ -97,6 +109,8 @@
   `(mk-map* ~(merge {}
                     (when tag {:tag (keyword sym)})
                     (when id {id 'id})) ~'body))
+
+;; Public API continued
 
 (defmacro def-dyn-props
   "Creates functions or function aliases for defining 'dynamic' properties
