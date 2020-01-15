@@ -31,6 +31,12 @@
 (defn mk-map [& args]
   (mk-map* {} args))
 
+(defn edit
+  "Edits an existing map, m, using mk-map*. See mk-map* for
+  how the arguments are processed"
+  [m & args]
+  (mk-map* m args))
+
 (defn mk-prop [k v]
   {k v})
 
@@ -150,8 +156,3 @@
           `(defmacro ~(symbol (str "def" (name sym))) [~'id & ~'body]
              `(def ~~'id ('~~sym ~~'(keyword (name id)) ~@~'body))))))
 
-(defn edit
-  "Edits an existing map, m, using mk-map*. See mk-map* for
-  how the arguments are processed"
-  [m & args]
-  (mk-map* m args))
