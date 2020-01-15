@@ -102,11 +102,11 @@
     (def-dyn-props {:id :name} prop5 prop6)
     (def-dyn-props {:id :id, :tag :truthy} prop7)
 
-    (prop1 :age 4 :dob 2001) => {:prop1 {:age 4 :dob 2001}}
-    (prop3 :age 4 :dob 2001) => {:prop1 {:age 4 :dob 2001 :tag :prop3}}
-    (prop5 :fred :age 4 :dob 2001) => {:prop1 {:age 4 :dob 2001 :name :fred}}
+    (prop1 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001}}
+    (prop3 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001 :tag :prop3}}
+    (prop5 :fred :age 4 :dob 2001) => {:fred {:age 4 :dob 2001 :name :fred}}
     (prop7 :fred :age 4 :dob 2001) =>
-      {:prop1 {:age 4 :dob 2001 :id :fred :tag :prop7}}"
+      {:fred {:age 4 :dob 2001 :id :fred :tag :prop7}}"
   [opt & syms]
   (let [{:keys [id tag]} opt
         syms (if (map? opt) syms (cons opt syms))]
