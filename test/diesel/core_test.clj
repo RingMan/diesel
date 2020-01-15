@@ -60,6 +60,18 @@
   (diesel.core/mk-prop-makers diesel.core/mk-prop age weight))
 
 (fact
+  (def-bool-props nice? funny?) =expands-to=>
+  (diesel.core/mk-prop-makers diesel.core/mk-bool-prop nice? funny?))
+
+(fact
+  (def-map-props p1 p2) =expands-to=>
+  (diesel.core/mk-prop-makers diesel.core/mk-map-prop p1 p2))
+
+(fact
+  (def-vec-props p1 p2) =expands-to=>
+  (diesel.core/mk-prop-makers diesel.core/mk-vec-prop p1 p2))
+
+(fact
   (def-pct-props probability likelihood) =expands-to=>
   (diesel.core/mk-prop-makers diesel.core/mk-pct-prop probability likelihood))
 
