@@ -2,6 +2,12 @@
   (:use midje.sweet
         diesel.core))
 
+(defn property? [m]
+  (and (map? m) (= 1 (count m))))
+
+(defn property-is [pred? p]
+  (-> p first val pred?))
+
 (fact (mk-prop -k- -v-) => {-k- -v-})
 
 (facts "mk-bool-prop returns a property whose value is boolean"
@@ -13,6 +19,22 @@
 
        (fact "falsey values coerce to false"
              (mk-bool-prop -k- nil) => {-k- false}))
+
+(fact
+  "mk-map-prop creates a property whose value is a map"
+  (mk-map-prop -k-) => {-k- {}}
+  (let [args [-k- :k1 :v1 :k2 :v2]]
+    (apply mk-map-prop args) => property?
+    (apply mk-map-prop args) => (partial property-is map?)
+    (apply mk-map-prop args) => {-k- {:k1 :v1 :k2 :v2}}))
+
+(fact
+  "mk-vec-prop creates a property whose value is a vector"
+  (mk-vec-prop -k-) => {-k- []}
+  (let [args [-k- -a- -b- -c-]]
+    (apply mk-vec-prop args) => property?
+    (apply mk-vec-prop args) => (partial property-is vector?)
+    (apply mk-vec-prop args) => {-k- [-a- -b- -c-]}))
 
 (fact (mk-unit-prop -k- -v- -u-) => {-k- {:units -u- :val -v-}})
 
