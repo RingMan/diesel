@@ -1,7 +1,6 @@
 (ns diesel.core
   (:require [clojure.string :as str]))
 
-(def pct-units #{:pct :percent :dec})
 
 (defn mk-map*
   "Process args recursively to edit an existing map, m. Arguments are processed
@@ -46,6 +45,8 @@
 
 (defn mk-unit-prop [k v u]
   {k {:val v :units u}})
+
+(def pct-units #{:pct :percent :dec})
 
 (defn mk-pct-prop [k v u]
   (assert (pct-units u))
