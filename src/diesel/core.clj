@@ -162,7 +162,12 @@
                ~(mk-map-form opt sym))))))
 
 (defmacro def-entity-macros
-  "Creates an entity-generating macro for each symbol in syms.
+  "Creates an entity-generating macro for each symbol in syms,
+  where symbol refers to a function that takes an entity id as its
+  first argument and any number of arguments for the entity's properties.
+  This includes any function created via def-entity-props and functions
+  created via def-entity-maps with the :id option set.
+
   For example (def-entity-macros widget) creates a macro like
 
   (defmacro defwidget [id & body]
