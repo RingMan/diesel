@@ -14,9 +14,12 @@
    - If arg is a collection, splice it into args and continue. This lets you
      use for comprehensions and such in calls to mk-map*
    - If arg is a function, apply it to the current map.
-   - Otherwise, assume arg forms a key/value pair with the next arg and assoc
-     it into the current map (consumes two arguments). It's an error if value
-     is missing."
+   - Otherwise, assume arg forms a key/value pair with the next arg. If the
+     value part is a function, apply it to the current value and assoc the
+     result to the existing key. Else, just assoc the new value to the given
+     key. Both ways consume two arguments. It's an error if value is missing.
+
+  See [[diesel.core-test]] for examples."
   [m args]
   (let [[x & xs] args]
     (cond
@@ -27,7 +30,9 @@
       (fn? x) (recur (x m) xs)
       (empty? xs) (throw (RuntimeException.
                            (str "mk-map* missing value after key: " x)))
-      :else (recur (assoc m x (first xs)) (rest xs)))))
+      :else (let [f (first xs)
+                  v (if (fn? f) (f (get m x)) f)]
+              (recur (assoc m x v) (rest xs))))))
 
 ;; Public API for creating/editing maps
 

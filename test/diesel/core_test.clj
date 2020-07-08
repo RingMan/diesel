@@ -33,6 +33,10 @@
     => {:k :v, 5 "five", "map" {:k3 :v3}, 'sym :sym, \tab :tab}
     (mk-map :k :v :key-with-no-val)
     => (throws "mk-map* missing value after key: :key-with-no-val"))
+  (fact "If the value of a key/value pair of args is a function, mk-map*
+        applies it to the existing value for the given key."
+    (mk-map :k1 0 :k2 3 :k3 1 :k1 inc :k2 dec :k3 (partial * 3))
+    => {:k1 1, :k2 2, :k3 3})
   (fact "`nil`, maps, lists, vectors, and functions can still act as keys
         if you wrap them in a map"
     (mk-map {nil :nil} {{:k :v} :map} {'(:key) :list} {[:vec] :vec} {inc :inc})
