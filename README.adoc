@@ -1,19 +1,31 @@
 = diesel
-
-image::https://travis-ci.org/RingMan/diesel.png[Build Status,link=https://travis-ci.org/RingMan/diesel]
+ifdef::env-github,env-cljdoc[:outfilesuffix: .adoc]
 
 diesel = di - es - el = DSL = helper library for creating your own DSL
 
-Really, it's just a small set of functions, macros, and conventions to provide syntactic sugar for creating deeply nested data values.
+== Status
+
+image:https://img.shields.io/clojars/v/diesel[Clojars Project,link=https://clojars.org/diesel]
+image:https://versions.deps.co/ringman/diesel/status.svg[Dependencies Status,link=https://versions.deps.co/ringman/diesel]
+image:https://img.shields.io/travis/ringman/diesel[Build Status,link=https://travis-ci.org/RingMan/diesel]
+image:https://img.shields.io/codecov/c/gh/ringman/diesel[Codecov,link=https://codecov.io/gh/ringman/diesel]
+image:https://cljdoc.org/badge/diesel/diesel[cljdoc badge,link=https://cljdoc.org/d/diesel/diesel/CURRENT]
+
+== Welcome
+
+`diesel` is just a small set of functions, macros, and conventions to provide syntactic sugar for creating deeply nested data values.
 To my mind, the resulting forms are a bit more readable than the raw data structure they create.
 
 What you end up with may not be a true DSL according to purists.
 But I think you'll find it useful.
 I have.
 
-By sharing, I hope to gain valuable feedback to accelerate my path to harnessing the true power of Clojure.
-I'm hooked.
+If nothing else, `diesel.core/mk-map` and `diesel.core/edit` are worth a look.
+They are extremely useful utility functions for creating and editing maps.
+To see them in action, look at the link:test/diesel/core_test.clj[core tests].
 
-Stay tuned...
+The functions in `diesel.edit` are also general purpose tools for editing nested data.
+Take a peek at the link:test/diesel/edit_test.clj[edit tests].
 
-David Kettering
+For a complete example of a DSL built with the help of `diesel`, see https://github.com/RingMan/sea-quell[seaquell].
+
