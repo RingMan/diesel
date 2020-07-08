@@ -8,6 +8,40 @@
 (defn property-is [pred? p]
   (-> p first val pred?))
 
+(fact "Use mk-map to create maps from scratch using the key helper function, mk-map*"
+  (fact "With no args, mk-map just returns an empty map"
+    (mk-map) => {})
+  (fact "If an arg in 'keyword' position is nil, skip it. Together with the
+        splicing rule below, this let's you inline conditional logic."
+    (mk-map nil :k :v nil {:k2 :v2} nil) => {:k :v, :k2 :v2}
+    (mk-map :k :v (when false [:k0 :v0]) :k2 :v2 (if true nil [:k3 :v3]))
+    => {:k :v, :k2 :v2})
+  (fact "mk-map acts like `merge` when an arg in 'keyword' position is a map"
+    (mk-map :k :v {:k2 :V2} {:k2 :v2, :k3 :v3}) => {:k :v, :k2 :v2, :k3 :v3})
+  (fact "When an arg in 'keyword' position is a function, mk-map* calls it
+        with the current value of the map."
+    (mk-map {:k :v} #(assoc % :k2 1) #(update % :k2 inc)) => {:k :v, :k2 2})
+  (fact "When an arg in 'keyword' position is sequential, mk-map* splices
+        the elements into the argument list."
+    (mk-map {:k :v} [:k2 :v2] (list :k3 :v3))
+    => {:k :v, :k2 :v2, :k3 :v3}
+    (mk-map {:k :v} [[[nil :k2 :v2 [[{:k3 :v3} nil]]]]])
+    => {:k :v, :k2 :v2, :k3 :v3})
+  (fact "mk-map acts like `assoc` when given key/value pairs where the value
+        in 'keyword' position isn't 'special'."
+    (mk-map :k :v 5 "five" "map" {:k3 :v3} 'sym :sym \tab :tab)
+    => {:k :v, 5 "five", "map" {:k3 :v3}, 'sym :sym, \tab :tab}
+    (mk-map :k :v :key-with-no-val)
+    => (throws "mk-map* missing value after key: :key-with-no-val"))
+  (fact "`nil`, maps, lists, vectors, and functions can still act as keys
+        if you wrap them in a map"
+    (mk-map {nil :nil} {{:k :v} :map} {'(:key) :list} {[:vec] :vec} {inc :inc})
+    => {nil :nil, {:k :v} :map, '(:key) :list, [:vec] :vec, inc :inc}))
+
+(fact "Use `edit` to edit existing maps"
+  (edit {:k1 0} :k2 2 #(update % :k1 inc) nil {:k3 3} [:k4 4])
+  => {:k1 1, :k2 2, :k3 3, :k4 4})
+
 (fact (mk-prop -k- -v-) => {-k- -v-})
 
 (facts "mk-bool-prop returns a property whose value is boolean"
