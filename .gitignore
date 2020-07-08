@@ -3,6 +3,7 @@
 /classes
 /checkouts
 pom.xml
+*.html
 *.swp
 *.jar
 *.class
