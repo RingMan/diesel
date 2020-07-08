@@ -20,11 +20,11 @@ What you end up with may not be a true DSL according to purists.
 But I think you'll find it useful.
 I have.
 
-If nothing else, `diesel.core/mk-map` and `diesel.core/edit` are worth a look.
+If nothing else, link:src/diesel/core.clj#L6-L35[`diesel.core/mk-map`] and link:src/diesel/core.clj#L45-L49[`diesel.core/edit`] are worth a look.
 They are extremely useful utility functions for creating and editing maps.
 To see them in action, look at the link:test/diesel/core_test.clj[core tests].
 
-The functions in `diesel.edit` are also general purpose tools for editing nested data.
+The functions in link:src/diesel/edit.clj[`diesel.edit`] are also general purpose tools for editing nested data.
 Take a peek at the link:test/diesel/edit_test.clj[edit tests].
 
 For a complete example of a DSL built with the help of `diesel`, see https://github.com/RingMan/sea-quell[seaquell].
