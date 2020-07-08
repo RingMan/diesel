@@ -8,4 +8,5 @@
   :dependencies [[org.clojure/clojure "1.10.1"]]
   :profiles {:dev {:dependencies [[org.clojure/tools.namespace "0.3.1"]
                                   [midje "1.9.9"]]
-                   :plugins [[lein-midje "3.2.2"]]}})
+                   :plugins [[lein-cloverage "1.1.2"]
+                             [lein-midje "3.2.2"]]}})
