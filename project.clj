@@ -10,6 +10,6 @@
                    :plugins [[lein-cloverage "1.1.2"]
                              [lein-midje "3.2.2"]]}
              :repl {:dependencies [[clj-commons/fs "1.5.2"]
-                                   [expound "0.8.4"]
+                                   [expound "0.8.5"]
                                    [integrant/repl "0.3.1"]]
                     :source-paths ["dev"]}})
