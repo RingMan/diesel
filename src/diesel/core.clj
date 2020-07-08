@@ -23,7 +23,7 @@
       (empty? args) m
       (nil? x) (recur m xs)
       (map? x) (recur (merge m x) xs)
-      (coll? x) (recur m (concat x xs))
+      (sequential? x) (recur m (concat x xs))
       (fn? x) (recur (x m) xs)
       (empty? xs) (throw (RuntimeException.
                            (str "mk-map* missing value after key: " x)))
