@@ -1,4 +1,4 @@
-(defproject diesel "0.2.0-SNAPSHOT"
+(defproject diesel "0.2.0"
   :description "diesel = di-es-el = DSL helper library"
   :url "https://github.com/RingMan/diesel"
   :license {:name "Eclipse Public License"
