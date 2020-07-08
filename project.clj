@@ -3,8 +3,6 @@
   :url "https://github.com/RingMan/diesel"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :scm {:name "git"
-        :url "https://github.com/RingMan/diesel"}
   :dependencies [[org.clojure/clojure "1.10.1"]]
   :profiles {:dev {:dependencies [[org.clojure/tools.namespace "0.3.1"]
                                   [integrant "0.8.0"]
