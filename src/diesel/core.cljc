@@ -1,5 +1,50 @@
 (ns diesel.core
-  (:require [clojure.string :as str]))
+  #_(:require [klojure.string :as str])
+  #?(:cljs (:require-macros [diesel.core])))
+
+(defn mk-vec*
+  "Process args recursively to edit an existing vector, v. Arguments are processed
+  as follows:
+
+   - If args is empty return the current vector.
+   - If arg is nil, skip it. This lets you use forms like if and when to
+     conditionally edit a vector.
+   - If arg is a collection, splice it into args and continue. This lets you
+     use for comprehensions and such in calls to mk-vec*
+   - If arg is a function, apply it to the current vector.
+   - Otherwise, assume arg is a simple value and conj it to the current vector."
+  [v args]
+  (let [[x & xs] args]
+    (cond
+      (empty? args) v
+      (nil? x) (recur v xs)
+      (sequential? x) (recur v (concat x xs))
+      (fn? x) (recur (x v) xs)
+      :else (recur (conj v x) xs))))
+
+;; Adapt all the mk-* fns to accept a transducer as well as plain fn
+;; Write elem with two arities, [v] or [k v] to conj an elem to a coll
+
+(conj {:a 1} [:b 3] [:c 4])
+(conj #{1} 2 3)
+(conj [1] 2)
+(conj '(1) 2)
+(cons 1 '(2))
+(cons 1 [2 3])
+
+(defn elem
+  "conj an element to vec, list, set, or map.
+  For use with mk-* family of functions"
+  [x] #(conj % x))
+
+(comment
+  (let [succ #(conj % (inc (last %)))
+        pred #(conj % (dec (last %)))
+        null (elem nil)
+        fun (elem #(+ % 2))]
+    (mk-vec* [1] [succ succ succ pred pred pred null fun]))
+  (mk-map* {} [(elem [nil 0]) (elem [[1 2] :one-two])])
+  (mk-vec* [] [1 2 [3 4 nil [5 #(conj % nil) 6]] (for [i (range 7 11)] i)]))
 
 ;; Core helper function to edit existing map
 
@@ -28,8 +73,8 @@
       (map? x) (recur (merge m x) xs)
       (sequential? x) (recur m (concat x xs))
       (fn? x) (recur (x m) xs)
-      (empty? xs) (throw (RuntimeException.
-                           (str "mk-map* missing value after key: " x)))
+      (empty? xs) (let [msg (str "mk-map* missing value after key: " x)]
+                    (throw #?(:clj (RuntimeException. msg), :cljs msg)))
       :else (let [f (first xs)
                   v (if (fn? f) (f (get m x)) f)]
               (recur (assoc m x v) (rest xs))))))
@@ -41,6 +86,14 @@
   how the arguments are processed"
   [& args]
   (mk-map* {} args))
+
+;; TODO: Maybe consider meta data, and preserving it
+
+;; TODO: Maybe add mk-str, mk-list, mk-set, mk-val
+
+;; TODO: Perhaps make family of edit fns, one per data type
+;; edit-map, edit-list, edit-set, edit-vec
+;; Then either edit or edit-val operates on any compound type
 
 (defn edit
   "Edits an existing map, m, using mk-map*. See mk-map* for
